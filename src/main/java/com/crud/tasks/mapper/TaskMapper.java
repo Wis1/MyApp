@@ -5,6 +5,7 @@ import com.crud.tasks.domain.TaskDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -15,6 +16,14 @@ public class TaskMapper {
                 taskDto.getId(),
                 taskDto.getTitle(),
                 taskDto.getContent()
+        );
+    }
+
+    public TaskDto mapToTaskDto(final Optional<Task> task){
+        return new TaskDto(
+                task.get().getId(),
+                task.get().getTitle(),
+                task.get().getContent()
         );
     }
 
