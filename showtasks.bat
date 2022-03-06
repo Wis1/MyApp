@@ -5,7 +5,7 @@ echo Cannot start runcrud
 goto fail
 
 :startbrowser
-start firefox localhost:8080/crud/v1/task/getTasks
+start firefox localhost:8080/crud/v1/tasks/
 
 goto end
 
