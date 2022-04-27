@@ -27,6 +27,7 @@ public class SimpleEmailService {
         }
     }
     private SimpleMailMessage createMailMessage(final Mail mail) {
+        log.info("method createMailMessage in SimpleEmailService is use.");
         Optional<String> toCcOptional= Optional.ofNullable(mail.getToCc());
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(mail.getMailTo());
