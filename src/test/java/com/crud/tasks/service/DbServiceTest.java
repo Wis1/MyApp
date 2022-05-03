@@ -13,9 +13,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
@@ -27,14 +27,14 @@ class DbServiceTest {
     TaskRepository repository;
 
     @Test
-    void getTasksWithIdTest() {
+    void shouldGetTasksWithIdTest() {
 
         assertThrows(TaskNotFoundException.class, ()->service.getTasksWithId(4L));
 
     }
 
     @Test
-    void getAllTasks(){
+    void shouldGetAllTasks(){
 
         //Given
         Task task1= new Task(1L,"test", "test");
@@ -45,19 +45,36 @@ class DbServiceTest {
         taskList.add(task1);
         taskList.add(task2);
         taskList.add(task3);
-        service.saveTask(task1);
-        service.saveTask(task2);
-        service.saveTask(task3);
 
         //When
-        when(repository.findAll()).thenReturn(taskList);
-        List<Task> taskListToCheck= service.getAllTasks();
+        when(service.getAllTasks()).thenReturn(taskList);
 
         //Then
-        assertThat(taskListToCheck).isNotNull();
-        assertThat(taskListToCheck.size()).isEqualTo(3);
+        assertEquals(3, service.getAllTasks().size());
 
         //Clean up
         service.deleteAll();
+    }
+
+    @Test
+    void shouldDeleteTask() {
+        //Given
+        Task task1= new Task(1L,"test", "test");
+        Task task2= new Task(2L,"test2", "test2");
+        Task task3= new Task(3L, "test3", "test3");
+        List<Task> taskList= new ArrayList<>();
+        taskList.add(task1);
+        taskList.add(task2);
+        taskList.add(task3);
+
+        //When
+        repository.save(task1);
+        repository.save(task2);
+        repository.save(task3);
+        repository.deleteById(1L);
+        when(service.getAllTasks()).thenReturn(taskList);
+
+        //Then
+        assertEquals(2, service.getAllTasks().size());
     }
 }
