@@ -72,9 +72,9 @@ class DbServiceTest {
         repository.save(task2);
         repository.save(task3);
         repository.deleteById(1L);
-        when(service.getAllTasks()).thenReturn(taskList);
 
         //Then
-        assertEquals(2, service.getAllTasks().size());
+        verify(repository,times(3)).save(any(Task.class));
+        verify(repository).deleteById(1L);
     }
 }
