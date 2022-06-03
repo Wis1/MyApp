@@ -17,6 +17,7 @@ public class EmailScheduler {
     private final AdminConfig adminConfig;
 
     private static final String SUBJECT = "Tasks: Once a day email";
+    private static final String SUB = "Number of tasks today";
 
     @Scheduled(cron = "0 0 10 * * *")
     public void sendInformationEmail() {
@@ -32,6 +33,19 @@ public class EmailScheduler {
                         SUBJECT,
                         "Currently in database you got: " + size + task,
                         null
+                )
+        );
+    }
+
+    @Scheduled(cron = "0 0 10 * * *")
+    public void sendEmail() {
+        simpleEmailService.send(
+                new Mail(
+                        adminConfig.getAdminMail(),
+                        SUB,
+                        "",
+                        null
+
                 )
         );
     }
